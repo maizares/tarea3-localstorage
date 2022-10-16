@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>::: LocalStorage :::</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="quiz">
+      <div id="welcomescreen">
+        <h1 class="quiz__maintitle">Encuesta de satisfacción al cliente</h1>
+        <p class="quiz__description">
+          La encuesta tiene <span id="numberOfQuestions"></span> preguntas
+        </p>
+        <div>
+          <input
+            type="text"
+            id="username"
+            placeholder="Ingrese su nombre de usuario"
+          />
+        </div>
+        <button id="welcome_btn">Ok</button>   
+        <button id="users_btn">Ver Usuarios</button>
+        <div class="quiz__welcomeError" id="welcomeError"></div>        
+      </div>
+
+      <div class="quiz__usernameview" id="userNameView"></div>
+      <div id="questionscreen"></div>
+      <div id="answerscreen"></div>
+      <div id="viewUsers"></div>
+      <div id="goodbyescreen">
+        <h1>Gracias por responder!</h1>
+        <p>Regresar al inicio</p>        
+        <button id="answers_btn">Ver Respuestas</button>
+      </div>
+      <div class="dvReturn">
+        <button id="backToStart_btn" class="backToStart_btn">Regresar</button>
+      </div>
+      <div class="dvRestart">
+        <button id="restart_btn" class="restart_btn">Reiniciar</button>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
