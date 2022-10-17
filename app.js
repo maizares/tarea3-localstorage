@@ -14,7 +14,7 @@ let elViewUsers         = document.getElementById("viewUsers");
 let elusers_btn         = document.getElementById("users_btn");
 let elrestart_btn       = document.getElementById("restart_btn");
 let valUserName         = "";
-let arrUsers            = [];//new Object();            
+let arrUsers            = new Object();            
 let arrAnswers          = []
 let g_userName          = "";
 let allUsers            = [];
@@ -138,22 +138,13 @@ function Question(title, answers) {
     if(lc_arrAnswers == null) {
       arrAnswers[quiz.indexCurrentQuestion]=selectedAnswer;//agregamos la respuesta al array de respuestas
       localStorage.setItem("arrAnswers",JSON.stringify(arrAnswers));
-      //console.log("[if] arrAnswers=> " + arrAnswers);
     }
     else{
       arrAnswers = JSON.parse(localStorage.getItem("arrAnswers"));
       arrAnswers[quiz.indexCurrentQuestion]=selectedAnswer;//agregamos la respuesta al array de respuestas
       localStorage.setItem("arrAnswers",JSON.stringify(arrAnswers));
-      //console.log("localstorage => " + arrAnswers);
     }
-    //ELIMINAR
-    /*
-    lc_arrAnswers = JSON.parse(localStorage.getItem("arrAnswers"));
-    console.log("arrAnswers=> " + arrAnswers);
-    console.log("localstorage => " + lc_arrAnswers);
-    console.log("indexCurrentQuestion => ", localStorage.getItem("indexCurrentQuestion"));
-    */
-    //FIN ELIMINACION
+    
     elQuestionScreen.textContent = "";
     /* ACTIVAR
     if (
@@ -200,8 +191,6 @@ function Quiz() {
     });
   };
   this.showCurrentQuestion = function () { 
-    //console.log("this.indexCurrentQuestion => " + this.indexCurrentQuestion)
-    //console.log(this.indexCurrentQuestion +"<"+ this.questions.length)
     if (this.indexCurrentQuestion < this.questions.length) {
       this.questions[this.indexCurrentQuestion].getElement();
     } 
@@ -211,40 +200,29 @@ function Quiz() {
       elBackToStartBtn.style.display = "block";
       this.indexCurrentQuestion      = 0;          //=> FALTABA
       let lc_allUsers                = localStorage.getItem("allUsers");
-      //console.log(arrAnswers)
-      
-      //console.log("ARRAY=> "+arrUsers);
 
       localStorage.removeItem("userName");//quitamos el usuario 
-       
 
       let lc_users = localStorage.getItem("users");
-
-      if(lc_users == null) {        
+      
+      if(lc_users == null) {     
         arrUsers[valUserName]=arrAnswers; //agregamos el array de respuestas al array de usuarios 
         localStorage.setItem("users",JSON.stringify(arrUsers));
       }
-      else{        
+      else{              
         arrUsers = JSON.parse(lc_users);
-        //console.log("ACA=>"+lc_users)
         arrUsers[valUserName]=arrAnswers; //agregamos el array de respuestas al array de usuarios 
         localStorage.setItem("users",JSON.stringify(arrUsers));
       }
-
+      
       if(lc_allUsers == null) {
-        //console.log("en el if allUsers");
         allUsers[allUsers.length]   = valUserName;
         localStorage.setItem("allUsers",JSON.stringify(allUsers));
       }
       else{
         allUsers = JSON.parse(lc_allUsers);
-        //console.log("allUsers.length => " + allUsers.length);
-        //console.log("ANTES allUsers => " + allUsers);
         allUsers[allUsers.length]  = valUserName;
-        //console.log("allUsers.length => " + allUsers.length);
         localStorage.setItem("allUsers",JSON.stringify(allUsers));
-        //console.log("DESPUES allUsers => " + allUsers);
-        //console.log("localstorage allUsers=> " + JSON.parse(localStorage.getItem("allUsers")));
       }
       arrAnswers = []//limpiamos el array de respuestas
     }
@@ -256,20 +234,14 @@ function Quiz() {
 
 let quiz = new Quiz();
 quiz.addQuestions([
-  question1,question2,question3,/*question4,question5,question6,question7,question8,question9,question10,question11,question12,question13,question14,question15,question16,question17,question18,question19,question20,*/
-]);
+                    question1,question2,question3,question4,question5,question6,question7,question8,question9,question10,question11,question12,question13,question14,question15,question16,question17,question18,question19,question20,
+                 ]);
 
 elNumberOfQuestions.textContent = quiz.questions.length;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 const existeUsuario = (p_user) => {
-
-  //let lc_allUsers3 = (localStorage.getItem("users"));
-  //console.log("lc_allUsers3=>" + lc_allUsers3);
-  //console.log("lc_allUsers3=>" + JSON.parse(lc_allUsers3));
-
-  //console.log("<<<<=>"+JSON.parse(lc_allUsers3).Jose)
 
   let lc_allUsers2 = localStorage.getItem("allUsers");
   let okUser       = false;
@@ -293,7 +265,7 @@ const seeFirstQuestion = () => {
 
   if(!okUser){
     localStorage.setItem("userName",valUserName);
-    //localStorage.setItem("users",JSON.stringify(valUserName));
+    localStorage.setItem("userName2",valUserName);
 
     elwelcomeError.style.display  = "none";
     elWelcomeScreen.style.display = "none";
@@ -301,14 +273,10 @@ const seeFirstQuestion = () => {
     elQuestionScreen.style.display= "block";
     elUserNameView.style.display  = "block";
     elrestart_btn.parentElement.style.display   = "block"; 
-    //console.log(elNumberOfQuestions);
     elUserNameView.innerHTML      = "<span><strong>Usuario:</strong> " +valUserName +"</span>"
-    //arrUsers.push(valUserName);//Agrego el usuario al array
     g_userName                    = valUserName;
-    //arrUsers.push(g_userName);
+    
     quiz.showCurrentQuestion();
-
-    //console.log("indexCurrentQuestion => "+localStorage.getItem("indexCurrentQuestion"));
 
   }
   else{
@@ -323,14 +291,11 @@ const seeFirstQuestion = () => {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 //Ver respuestas
 const seeAnswers = (p_user="") => {
+
     elAnswerscreen.innerHTML="";
-    //let v_userName  = (idUser=="" || idUser === undefined)? g_userName : idUser;
-    let v_userName  = (p_user =="" || p_user === undefined)? localStorage.getItem("userName") : p_user;
+    
+    let v_userName  = (p_user =="" || p_user === undefined)? localStorage.getItem("userName2") : p_user;
     let lc_users    = JSON.parse(localStorage.getItem("users"));    // usuarios con sus respuestas
-    //let arrUsers3   = JSON.parse(localStorage.getItem("allUsers")); // solo nombre de usuarios
-    console.log("v_userName="+v_userName);
-    console.log("lc_users="+lc_users);
-    console.log("lc_users.v_userName="+lc_users[v_userName]);
 
     let arraA       = lc_users[v_userName];//DEBE SER ENTRE CORCHETES    //arrUsers[v_userName];//array de usuarios y busco uno en especifico
     elBackToStartBtn.style.display="block";
@@ -364,7 +329,6 @@ const seeAnswers = (p_user="") => {
         elAnswerscreen.append(questionAnswers);
       }
     });   
-    //elAnswerscreen.append(btnReturn);
     elAnswerscreen.style.display  = "block";  
     elGoodbyeScreen.style.display = "none"; 
 }
@@ -376,7 +340,8 @@ const showBtnUsers = () => {
   let arr = localStorage.getItem("users");
   if(arr !== null){
     elusers_btn.style.display = "block";
-    elusers_btn.addEventListener("click",showUsers);
+    elusers_btn.addEventListener("click",showUsers);    
+    elrestart_btn.parentElement.style.display   = "block"; 
   }
 }
 
@@ -387,7 +352,6 @@ const showUsers = () => {
   elViewUsers.style.display = "block";
   elViewUsers.innerHTML = "";
   let userTitle = document.createElement("h2");
-  //userTitle.classList.add("title-view");
   userTitle.innerHTML = "Usuarios en sistema"; 
   let users           = "";
   let ulUser          = document.createElement("ul");
@@ -410,8 +374,6 @@ const showUsers = () => {
 }
 
 elWelcomeBtn.addEventListener("click", seeFirstQuestion);
-//elAnswersBtn.addEventListener("click", seeAnswers);
-elAnswersBtn.addEventListener("click", function(){ seeAnswers(""); });
 
 const returnToStart = () => {
   elWelcomeScreen.style.display   = "block";
@@ -426,6 +388,7 @@ const returnToStart = () => {
 };
 
 const validaInicio = () =>{
+
   let userName = localStorage.getItem("userName");
   
   if(userName != null && userName != ""){
@@ -436,9 +399,7 @@ const validaInicio = () =>{
     elQuestionScreen.style.display= "block";
     elUserNameView.style.display  = "block"; 
     elrestart_btn.parentElement.style.display   = "block"; 
-    elUserNameView.innerHTML      = "<span><strong>Usuario:</strong> " +userName +"</span>"
-    //quiz.indexCurrentQuestion     = parseInt(localStorage.getItem("indexCurrentQuestion"));
-    console.log("INICIO indexCurrentQuestion => " + localStorage.getItem("indexCurrentQuestion"))
+    elUserNameView.innerHTML      = "<span><strong>Usuario:</strong> " +userName +"</span>"    
     quiz.showCurrentQuestion();    
   }
 
@@ -446,10 +407,13 @@ const validaInicio = () =>{
 
 }
 //funcion de reinicio del usuario 
-const restart = () =>{
-  console.log("reiniciando")
+const restart = () =>{  
+  localStorage.removeItem("users");
   localStorage.removeItem("userName");
+  localStorage.removeItem("userName2");
   localStorage.setItem("indexCurrentQuestion",0);
+  localStorage.removeItem("allUsers");
+  elusers_btn.style.display = "none";
   quiz.indexCurrentQuestion = 0;
   elQuestionScreen.textContent = "";
   returnToStart();
@@ -457,12 +421,8 @@ const restart = () =>{
 
 elBackToStartBtn.addEventListener("click", returnToStart);
 elrestart_btn.addEventListener("click", restart);
-/*
-localStorage.removeItem("arrAnswers")
-localStorage.removeItem("users");
-localStorage.removeItem("userName");
-localStorage.setItem("indexCurrentQuestion",0);
-localStorage.removeItem("allUsers");
-*/
+elAnswersBtn.addEventListener("click", function(){ seeAnswers(""); });
+
 validaInicio();
+showBtnUsers();
 
