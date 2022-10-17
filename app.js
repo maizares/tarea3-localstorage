@@ -146,7 +146,7 @@ function Question(title, answers) {
     }
     
     elQuestionScreen.textContent = "";
-    /* ACTIVAR
+    
     if (
         (
           (quiz.indexCurrentQuestion == 1 ||
@@ -167,8 +167,7 @@ function Question(title, answers) {
     } else {
       quiz.indexCurrentQuestion++;
     }
-    */
-    quiz.indexCurrentQuestion++; //DESACTIVAR
+        
     quiz.showCurrentQuestion();
   };
 }
@@ -294,18 +293,20 @@ const seeAnswers = (p_user="") => {
 
     elAnswerscreen.innerHTML="";
     
-    let v_userName  = (p_user =="" || p_user === undefined)? localStorage.getItem("userName2") : p_user;
+    let v_userName  = (p_user == "" || p_user === undefined)? localStorage.getItem("userName2") : p_user;
     let lc_users    = JSON.parse(localStorage.getItem("users"));    // usuarios con sus respuestas
-
+    
     let arraA       = lc_users[v_userName];//DEBE SER ENTRE CORCHETES    //arrUsers[v_userName];//array de usuarios y busco uno en especifico
     elBackToStartBtn.style.display="block";
     elViewUsers.style.display     = "none";
-   
+    
+
     let eltitle = document.createElement("h2");
     eltitle.innerHTML="Usuario <i class='userNameAnserwers'>" + v_userName + "</i> respondio lo siguiente:";
     elAnswerscreen.append(eltitle);
 
     quiz.questions.forEach((q, index) => {
+
       let index1 = parseInt(arraA[index])
       let index2 = index1 - 1;//obtenemos el id de lo que se respondió
       
